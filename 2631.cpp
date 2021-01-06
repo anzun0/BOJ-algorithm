@@ -1,28 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
-int n, ans;
-int d[200], s[200];
-bool moved[200];
+int n;
+int d[1000001];
 
 int main(void) {
     cin >> n;
-    for (int i = 0; i < n; i++) cin >> s[i];
+    d[1] = 0;
     
-    d[0] = s[0];
-    int max_value = s[0], min_value = s[0];
-    int max_index = 0, min_index = 0;
-    
-    for (int i = 1; i < n; i++) {
-        if (s[i] < max_value && !moved[max_index]) {
-            moved[max_index] = true;
-            ans++;
-        }
-        else if (s[i] < min_value) {
-            moved[i] = true;
-            ans++;
-            min_value = s[i];
-            min_index = i;
-        }
-        
+    for (int i = 2; i <= n; i++) {
+        d[i] = d[i-1] + 1;
+        if (i % 2 == 0) d[i] = min(d[i], d[i/2] + 1);
+        if (i % 3 == 0) d[i] = min(d[i], d[i/3] + 1);
     }
+    cout << d[n] << '\n';
 }
