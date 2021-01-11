@@ -1,49 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int k, arr[6];
-vector<int> v;
-vector<bool> isused;
-
-void func(int idx, int n)
-{
-    if(n==6)
-    {
-        for(int i=0;i<6;i++)
-            cout<<arr[i]<<' ';
-        cout<<'\n';
-        return;
-    }
-    for(int i=idx;i<k;i++)
-    {
-        if(!isused[i])
-        {
-            arr[n]=v[i];
-            isused[i]=true;
-            func(i, n+1);
-            isused[i]=false;
-        }
-    }
-}
-
-int main(void)
-{
-    while(true)
-    {
-        cin>>k;
-        if(k==0) return 0;
+int main(void) {
+    
+    while(1) {
+        int k;
+        cin >> k;
+        if (k == 0) break;
+        vector<int> v(k), t(k, 1);
         
-        v.clear();
-        isused.clear();
+        for (int i = 0; i < k; i++) cin >> v[i];
+        for (int i = 0; i < 6; i++) t[i] = 0;
         
-        for(int i=0;i<k;i++)
-        {
-            int input;
-            cin>>input;
-            v.push_back(input);
-            isused.push_back(false);
-        }
-        func(0,0);
-        cout<<'\n';
+        do {
+            for (int i = 0; i < k; i++)
+                if (t[i] == 0) cout << v[i] << ' ';
+            cout << '\n';
+        } while (next_permutation(t.begin(), t.end()));
+        cout << '\n';
     }
 }
