@@ -3,3 +3,4 @@
 2) 프로그래머스 (https://programmers.co.kr/)
 <br>
 Language: C++
+일주일에 3문제씩
