@@ -9,9 +9,7 @@ int main(void) {
     queue<int> result;
 
     for (int i = 1; i <= n; i++) {
-        int k;
-        cin >> k;
-        dq.push_back(k);
+        dq.push_back(i);
     }
 
     int cnt = 1;
