@@ -10,12 +10,19 @@ int main(void) {
     priority_queue<int> positive;
     priority_queue<int, vector<int>, greater<int>> negative;
     bool zero = false;
+    int oneCount = 0;
 
     for (int i = 0; i < n; i++) {
         int val;
         cin >> val;
 
-        if (val > 0) positive.push(val);
+        if (val > 0) {
+            if (val == 1) {
+                oneCount += 1;
+                continue;
+            }
+            positive.push(val);
+        }
         else if (val < 0) negative.push(val);
         else zero = true;
     }
@@ -31,6 +38,7 @@ int main(void) {
         ans += (num1 * num2);
     }
     if (positive.size()) ans += positive.top();
+    ans += oneCount;
 
     while (negative.size() > 1) {
         int num1 = negative.top();
