@@ -39,18 +39,18 @@ int bfs() {
     return size;
 }
 
-int transfer() {
-    int unitedSize = 1;
+bool transfer() {
+    bool flag = false;
     for (int x = 0; x < n; x++) {
         for (int y = 0; y < n; y++) {
             if (!visited[x][y]) {
                 q.push({x, y});
                 visited[x][y] = 1;
-                unitedSize = max(unitedSize, bfs());
+                if (bfs() > 1) flag = true;
             }
         }
     }
-    return unitedSize;
+    return flag;
 }
 
 int main(void) {
@@ -63,8 +63,7 @@ int main(void) {
             cin >> arr[i][j];
 
     while(true) {
-        int unitedSize = transfer();
-        if (unitedSize > 1) {
+        if (transfer()) {
             result += 1;
             memset(visited, false, sizeof(visited));
         }

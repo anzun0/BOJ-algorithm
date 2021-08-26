@@ -2,31 +2,35 @@
 using namespace std;
 
 int n, m, k, x;
+vector<int> graph[300001];
+vector<int> d(300001, -1);
 
-vector<int> bfs(int k, int start, vector<vector<int>> road) {
-    vector<int> result;
-    int* visited = new int[n+1];
-    for (int i = 1; i <= n; i++) visited[i] = -1;
-
+void bfs() {
     queue<int> q;
-    q.push(start);
-    visited[start] = 0;
+    d[x] = 0;
+    q.push(x);
 
-    while(!q.empty()) {
-        int nx = q.front(); q.pop();
-
-        for (int i = 0; i < road[nx].size(); i++) {
-            if (visited[road[nx][i]] == -1) {
-                q.push(road[nx][i]);
-                visited[road[nx][i]] = visited[nx] + 1;
-
-                if (visited[road[nx][i]] == k)
-                    result.push_back(road[nx][i]);
+    while (!q.empty()) {
+        int now = q.front();
+        q.pop();
+        for (int i = 0; i < graph[now].size(); i++) {
+            int next = graph[now][i];
+            if (d[next] == -1) {
+                d[next] = d[now] + 1;
+                q.push(next);
             }
         }
     }
-    delete[] visited;
-    return result;
+
+    bool check = false;
+    for (int i = 1; i <= n; i++) {
+        if (d[i] == k) {
+            cout << i << '\n';
+            check = true;
+        }
+    }
+    if (!check) cout << -1 << '\n';
+    return;
 }
 
 int main(void) {
@@ -34,19 +38,12 @@ int main(void) {
     cin.tie(0);
 
     cin >> n >> m >> k >> x;
-    vector<vector<int>> road(n + 1);
 
     for (int i = 0; i < m; i++) {
         int from, to;
         cin >> from >> to;
-        road[from].push_back(to);
+        graph[from].push_back(to);
     }
-    vector<int> result = bfs(k, x, road);
-    if (result.empty()) cout << -1 << '\n';
-    else {
-        sort(result.begin(), result.end());
-        for (int i = 0; i < result.size(); i++)
-            cout << result[i] << '\n';
-    }
+    bfs();
     return 0;
 }
