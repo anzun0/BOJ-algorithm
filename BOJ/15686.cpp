@@ -1,16 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n, m;
+int n, m, result=1e9;
 int arr[51][51];
-vector<pair<int, int>> chicken;
-vector<pair<int, int>> home;
+vector<pair<int,int>> home;
+vector<pair<int,int>> chicken;
 
-int calculateDistance(pair<int, int> p1, pair<int, int> p2) {
-    int diff_x = abs(p1.first - p2.first);
-    int diff_y = abs(p1.second - p2.second);
+int distance(int x1, int y1, int x2, int y2) {
+    return abs(x2-x1) + abs(y2-y1);
+}
 
-    return diff_x + diff_y;
+int chickenDistance(vector<pair<int,int>> v) {
+    int cityChickenDistance = 0;
+
+    for (int i = 0; i < home.size(); i++) {
+        int chickenDistance = 1e9;
+        int hx = home[i].first;
+        int hy = home[i].second;
+        for (int j = 0; j < v.size(); j++) {
+            int cx = v[j].first;
+            int cy = v[j].second;
+            int temp = distance(hx, hy, cx, cy);
+            chickenDistance = min(chickenDistance, temp);
+        }
+        cityChickenDistance += chickenDistance;
+    }
+    return cityChickenDistance;
 }
 
 int main(void) {
@@ -25,23 +40,19 @@ int main(void) {
             if (arr[i][j] == 2) chicken.push_back({i, j});
         }
     }
-
-    vector<int> brute(chicken.size(), 1);
-    fill(brute.begin(), brute.begin() + chicken.size() - m, 0);
-    int ans = 0x7f7f7f7f;
+    vector<bool> brute(chicken.size(), 0);
+    fill(brute.end() - m, brute.end(), true);
 
     do {
-        int dist = 0;
-        for (auto h : home) {
-            int temp = 0x7f7f7f7f;
-
-            for (int i = 0; i < chicken.size(); i++) {
-                if (brute[i] == 0) continue;
-                temp = min(temp, calculateDistance(chicken[i], h));
+        vector<pair<int,int>> v;
+        for (int i = 0; i < brute.size(); i++) {
+            if (brute[i]) {
+                int x = chicken[i].first;
+                int y = chicken[i].second;
+                v.push_back({x, y});
             }
-            dist += temp;
         }
-        ans = min(ans, dist);
+        result = min(result, chickenDistance(v));
     } while(next_permutation(brute.begin(), brute.end()));
-    cout << ans << '\n';
+    cout << result << '\n';
 }

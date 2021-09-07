@@ -1,31 +1,31 @@
 // https://programmers.co.kr/learn/courses/30/lessons/60057
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int solution(string s) {
-    int ans = s.size();
+    int ans = 1e9;
 
-    for (int i = 1; i <= s.size() / 2; i++) {
-        string convert, temp;
+    for (int i = 1; i <= s.size(); i++) { //1개 단위부터, 문자열의 전체 길이까지
+        string result = "";
+
         int count = 1;
-        temp = s.substr(0, i);
+        string now = s.substr(0, i);
 
         for (int j = i; j < s.size(); j += i) {
-            if (temp == s.substr(j, i)) count += 1;
+            string next = s.substr(j, i);
+            if (now == next) count += 1;
             else {
-                if (count > 1) convert += to_string(count);
-                convert += temp;
-                temp = s.substr(j, i);
+                if (count != 1) result += to_string(count);
+                result += now;
+                now = next;
                 count = 1;
             }
         }
-        if (count > 1) convert += to_string(count);
-        convert += temp;
+        if (count > 1) result += to_string(count);
+        result += now;
 
-        int size = convert.size();
+        int size = result.size();
         ans = min(ans, size);
     }
     return ans;

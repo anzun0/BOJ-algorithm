@@ -42,7 +42,6 @@ int main(void) {
             x = nx;
             y = ny;
             cnt += 1;
-            turn_time += 1;
             turn_time = 0;
             continue;
         }

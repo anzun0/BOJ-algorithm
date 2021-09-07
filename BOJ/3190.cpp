@@ -4,17 +4,17 @@ using namespace std;
 int n, k, l;
 int curTime, direction = 1;
 int arr[101][101];
-deque<pair<int, int>> snake;
 
 int dx[] = {-1, 0, 1, 0};
 int dy[] = {0, 1, 0, -1};
+deque<pair<int, int>> snake;
 
-void turn(char directionType) {
-    if (directionType == 'L') {
+void turn(char _direction) {
+    if (_direction == 'L') {
         direction -= 1;
         if (direction == -1) direction = 3;
     }
-    else if (directionType == 'D') {
+    else if (_direction == 'D') {
         direction += 1;
         if (direction == 4) direction = 0;
     }
@@ -46,28 +46,28 @@ int main(void) {
     for (int i = 0; i < k; i++) {
         int x, y;
         cin >> x >> y;
-        arr[x][y] = 1; // 사과가 있는 위치
+        arr[x][y] = 1;
     }
     snake.push_back({1, 1});
-    arr[1][1] = -1;
+    arr[1][1] = -1; // 뱀이 존재하는 위치를 -1로 설정
 
     cin >> l;
     for (int i = 0; i < l; i++) {
         int X;
-        char _direction;
-        cin >> X >> _direction;
+        char C;
+        cin >> X >> C;
 
-        while(curTime != X) {
+        while (curTime < X) {
             if (check() == false) {
                 cout << curTime + 1 << '\n';
                 return 0;
             }
             curTime += 1;
         }
-        turn(_direction);
+        turn(C);
     }
 
-    while(true) {
+    while (true) {
         if (check() == false) {
             cout << curTime + 1 << '\n';
             return 0;
